@@ -1,52 +1,82 @@
 "use client"
 
 import Image from 'next/image'
+import Link from 'next/link'
 import Button from './Button'
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 
 export default function Hero() {
   return (
-    <section className="relative h-screen w-full flex items-center justify-center overflow-hidden pt-20">
-      {/* Background Image / Placeholder */}
+    <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
+      {/* Background Image */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/50 z-10" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-transparent to-transparent z-10" />
-        {/* Using a placeholder high-res image for now */}
+        <div className="absolute inset-0 bg-black/30 z-10" />
         <Image 
-          src="https://images.unsplash.com/photo-1611329533182-3e284a14138e?q=80&w=2070&auto=format&fit=crop"
-          alt="Snaefell Scooter"
+          src="https://snaefell.com.ar/wp-content/uploads/2026/03/01-v3.png"
+          alt="Snaefell Hero Banner"
           fill
-          className="object-cover object-center grayscale-[20%]"
+          className="object-cover object-center"
           priority
         />
       </div>
 
-      <div className="relative z-20 max-w-7xl mx-auto px-6 w-full grid grid-cols-1 md:grid-cols-2 items-center">
+      <div className="relative z-20 max-w-7xl mx-auto px-6 w-full text-center">
         <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          initial="hidden"
+          animate="visible"
+          className="max-w-4xl mx-auto flex flex-col items-center"
         >
-          <span className="text-primary font-bold tracking-widest uppercase mb-4 block">
-            Bestride Series
-          </span>
-          <h1 className="text-6xl md:text-8xl font-black italic tracking-tighter mb-6 leading-tight">
-            F2 <span className="text-white block md:inline font-sans not-italic text-4xl md:text-6xl align-middle ml-2">| Deportivo & aventurero</span>
+          {/* Animated Main Title */}
+          <h1 className="flex flex-col items-center">
+            <motion.span 
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0 }
+              }}
+              transition={{ duration: 0.8 }}
+              className="text-3xl md:text-5xl font-extralight tracking-[0.4em] mb-4 uppercase text-white/80"
+            >
+              Movimiento
+            </motion.span>
+            
+            <motion.span 
+              variants={{
+                hidden: { opacity: 0, scale: 0.8 },
+                visible: { 
+                  opacity: 1, 
+                  scale: 1,
+                  transition: { 
+                    delay: 0.4,
+                    duration: 0.8,
+                    type: "spring",
+                    stiffness: 100
+                  }
+                }
+              }}
+              className="text-5xl md:text-8xl font-black tracking-[-0.05em] uppercase text-white drop-shadow-[0_0_30px_rgba(83,33,202,0.4)] italic"
+            >
+              Sin límites
+            </motion.span>
           </h1>
-          <p className="text-xl text-gray-400 mb-10 max-w-lg">
-            Conquista la ciudad con potencia y libertad real de movimiento. 
-            El Snaefell F2 combina ingeniería de precisión con un diseño imparable.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Button size="lg" className="group">
-              Ver Modelos
-              <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-            </Button>
-            <Button variant="glass" size="lg">
-              Saber más
-            </Button>
-          </div>
+          
+          {/* Pulsing Decorative Line */}
+          <motion.div 
+            initial={{ width: 0, opacity: 0 }}
+            animate={{ width: "80px", opacity: 1 }}
+            transition={{ delay: 1, duration: 1 }}
+            className="h-1 bg-primary mt-12 mb-8 rounded-full shadow-[0_0_15px_#5321CA]"
+          ></motion.div>
+          
+          {/* Background Pulsing Glow */}
+          <motion.div
+            animate={{ 
+              opacity: [0.2, 0.4, 0.2],
+              scale: [1, 1.1, 1]
+            }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-primary/10 rounded-full blur-[100px] -z-10"
+          ></motion.div>
         </motion.div>
       </div>
 
@@ -54,11 +84,9 @@ export default function Hero() {
       <motion.div 
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20"
+        className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20"
       >
-        <div className="w-6 h-10 border-2 border-white/20 rounded-full flex justify-center p-1">
-          <div className="w-1 h-2 bg-primary rounded-full" />
-        </div>
+        <div className="w-[1px] h-20 bg-gradient-to-b from-white to-transparent opacity-50" />
       </motion.div>
     </section>
   )

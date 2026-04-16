@@ -1,5 +1,9 @@
+import Image from "next/image";
+import Link from "next/link";
 import Hero from "@/components/Hero";
+import SobreNosotros from "@/components/SobreNosotros";
 import ProductCard from "@/components/ProductCard";
+import CustomButton from "@/components/Button";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function Home() {
@@ -15,53 +19,44 @@ export default async function Home() {
     <div className="w-full">
       <Hero />
 
+      {/* Sobre Nosotros - Essencia */}
+      <SobreNosotros />
+
       {/* Modelos Section */}
-      <section id="modelos" className="py-24 px-6 max-w-7xl mx-auto">
-        <div className="mb-16">
-          <h2 className="text-4xl md:text-5xl font-black italic tracking-tighter mb-4 uppercase">
+      {/*  <section id="modelos" className="py-32 px-6 max-w-7xl mx-auto">
+        <div className="mb-20 text-center">
+          <h2 className="text-5xl md:text-7xl font-black italic tracking-tighter mb-6 uppercase">
             Nuestros <span className="text-primary">Modelos</span>
           </h2>
-          <p className="text-gray-400 max-w-2xl">
+          <p className="text-gray-400 max-w-2xl mx-auto text-lg leading-relaxed">
             Explora la gama SNAEFELL. Desde la elegancia urbana hasta la potencia deportiva, 
             tenemos el monopatín perfecto para tu estilo de vida.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {featuredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-      </section>
-
-      {/* Sobre Nosotros - Essencia from Screenshot */}
-      <section id="nosotros" className="py-24 glass border-y border-white/5">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-          <div>
-            <h2 className="text-4xl md:text-5xl font-black italic tracking-tighter mb-8 uppercase leading-tight">
-              Sobre <span className="text-primary">Nosotros</span>
-            </h2>
-            <div className="space-y-6 text-gray-300 text-lg leading-relaxed">
-              <p>
-                En <span className="text-white font-bold">Snaefell</span> creemos en una movilidad eléctrica que combine potencia, diseño y libertad real de movimiento. Desarrollamos monopatines pensados para el uso urbano y la aventura cotidiana, con foco en la calidad constructiva y la experiencia del usuario.
-              </p>
-              <p>
-                Cada modelo nace de un proceso de diseño cuidadoso, donde la ingeniería y la identidad visual trabajan juntas para ofrecer un producto confiable, versátil y con carácter propio.
-              </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          {featuredProducts.length > 0 ? (
+            featuredProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))
+          ) : (
+            <div className="col-span-full h-64 flex items-center justify-center text-gray-500 italic">
+               Cargando modelos...
             </div>
-          </div>
-          <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl shadow-primary/20">
-             <Image 
-                src="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=800&auto=format&fit=crop"
-                alt="Factory"
-                fill
-                className="object-cover"
-             />
-          </div>
+          )}
+        </div>
+      </section> */}
+
+      {/* CTA Section */}
+      <section id="contacto" className="py-32 bg-primary/5">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <h2 className="text-4xl md:text-6xl font-black italic uppercase italic mb-8">¿Querés distribuir Snaefell?</h2>
+          <p className="text-xl text-gray-400 mb-12">Sumate a la red de movilidad eléctrica más innovadora del país.</p>
+          <Link href="https://wa.me/5491164454997?text=Hola%2C%20quiero%20ser%20distribuidor" target="_blank">
+            <CustomButton size="lg" className="px-16 py-6 rounded-full font-black uppercase italic tracking-widest text-lg">Contactar ahora</CustomButton>
+          </Link>
         </div>
       </section>
     </div>
   );
 }
-
-import Image from "next/image";

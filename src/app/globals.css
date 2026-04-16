@@ -1,15 +1,16 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #6200EE;
-  --color-secondary: #03DAC6;
-  --color-background: #050505;
+  --color-primary: #5321CA;
+  --color-secondary: #7E3AF2;
+  --color-background: #050E17;
   --color-foreground: #FFFFFF;
   --color-accent: #FF9800;
   --color-muted: #1A1A1A;
+  --color-bg-light: #F3F4F6;
   
-  --font-sans: "Inter", system-ui, sans-serif;
-  --font-display: "Clash Display", "Outfit", sans-serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-display: var(--font-montserrat), "Outfit", sans-serif;
 }
 
 :root {

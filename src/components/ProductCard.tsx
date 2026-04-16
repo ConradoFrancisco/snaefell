@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import { Plus, Info } from 'lucide-react'
-import Button from './Button'
+import CustomButton from './Button'
 import Price from './Price'
 import { useCartStore, Product } from '@/stores/useCartStore'
 import { useAuth } from './AuthProvider'
@@ -19,11 +19,9 @@ export default function ProductCard({ product }: ProductCardProps) {
   const router = useRouter()
 
   const handleAction = () => {
-    if (!user) {
-      router.push('/login')
-      return
-    }
-    addItem(product)
+    // Redirect to the specific model page for this design phase
+    const modelPath = product.name.toLowerCase().includes('f1') ? '/f1' : '/f2';
+    router.push(modelPath);
   }
 
   // Fallback image if the URL is invalid or missing
@@ -36,44 +34,43 @@ export default function ProductCard({ product }: ProductCardProps) {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="glass group relative rounded-3xl overflow-hidden p-4 flex flex-col h-full"
+      className="bg-white group relative rounded-[2.5rem] overflow-hidden p-8 flex flex-col h-full shadow-xl hover:shadow-primary/20 transition-all duration-500 border border-gray-100 hover:border-primary/30"
     >
-      <div className="relative aspect-square rounded-2xl overflow-hidden bg-muted mb-4">
+      <div className="relative aspect-square rounded-3xl overflow-hidden bg-gray-50 mb-8">
         <Image
           src={imageUrl}
           alt={product.name}
           fill
-          className="object-cover group-hover:scale-110 transition-transform duration-500"
-          unoptimized={!imageUrl.startsWith('http')} // Optimization fallback
+          className="object-cover group-hover:scale-110 transition-transform duration-700"
+          unoptimized={!imageUrl.startsWith('http')}
         />
-        <div className="absolute top-3 left-3 bg-primary/90 text-[10px] font-bold uppercase py-1 px-3 rounded-full">
+        <div className="absolute top-4 left-4 bg-primary text-[10px] font-black italic uppercase py-2 px-4 rounded-full text-white shadow-lg">
           {product.category}
         </div>
       </div>
 
       <div className="flex flex-col flex-grow">
-        <h3 className="text-xl font-bold mb-2">{product.name}</h3>
-        <p className="text-sm text-gray-400 line-clamp-2 mb-4">
+        <h3 className="text-2xl font-black italic uppercase tracking-tighter mb-3 text-background">{product.name}</h3>
+        <p className="text-sm text-gray-500 line-clamp-2 mb-8 leading-relaxed">
           {product.description}
         </p>
 
-        <div className="mt-auto flex items-center justify-between">
+        <div className="mt-auto pt-6 border-t border-gray-100 flex items-center justify-between">
           <div>
-            <span className="text-xs text-gray-500 block">Precio</span>
+            <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest block mb-1">Precio</span>
             <Price 
               amount={product.price || 0} 
-              className="text-2xl font-black italic tracking-tighter" 
+              className="text-2xl font-black italic tracking-tighter text-background" 
             />
           </div>
           
           <div className="flex space-x-2">
-            <Button 
-              variant={user ? "glass" : "primary"}
-              className="px-4 py-2 rounded-xl text-sm font-bold"
+            <CustomButton 
+              className="px-8 py-3 rounded-full text-[10px] font-black uppercase italic tracking-widest bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20"
               onClick={handleAction}
             >
-              {user ? <><Plus size={18} className="mr-1" /> Añadir</> : "Inicia sesión"}
-            </Button>
+              Ver más
+            </CustomButton>
           </div>
         </div>
       </div>
