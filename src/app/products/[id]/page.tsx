@@ -18,6 +18,7 @@ interface Product {
   image_url: string
   category: string
   specs: Record<string, string>
+  quantity: number
 }
 
 interface ProductImage {
@@ -32,7 +33,7 @@ export default function ProductDetailPage() {
   const [activeImage, setActiveImage] = useState('')
   const [quantity, setQuantity] = useState(1)
   const addItem = useCartStore((state) => state.addItem)
-  
+
   const supabase = createClient()
 
   useEffect(() => {
@@ -41,7 +42,7 @@ export default function ProductDetailPage() {
 
   const fetchProductDetails = async () => {
     setLoading(true)
-    
+
     // 1. Fetch Product
     const { data: productData, error: pError } = await supabase
       .from('products')
@@ -58,7 +59,7 @@ export default function ProductDetailPage() {
         .from('product_images')
         .select('image_url')
         .eq('product_id', id)
-      
+
       if (imagesData) {
         setExtraImages(imagesData.map(img => img.image_url))
       }
@@ -70,13 +71,15 @@ export default function ProductDetailPage() {
 
   const handleAddToCart = () => {
     if (!product) return
+
     addItem({
       id: product.id,
       name: product.name,
       price: product.price,
       image_url: product.image_url,
       quantity: quantity
-    })
+    } as any) // Casteamos temporalmente para evitar el conflicto de tipos de la DB
+
     toast.success(`¡Agregado!`, {
       description: `${product.name} ya está en tu carrito.`,
     })
@@ -94,7 +97,7 @@ export default function ProductDetailPage() {
     <div className="min-h-screen bg-white pt-32 pb-20 px-6">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
-          
+
           {/* Gallery Section */}
           <div className="space-y-6">
             <div className="relative aspect-square bg-gray-50 rounded-[3rem] overflow-hidden group">
@@ -107,10 +110,10 @@ export default function ProductDetailPage() {
                   transition={{ duration: 0.4 }}
                   className="w-full h-full p-12"
                 >
-                  <Image 
-                    src={activeImage} 
-                    alt={product.name} 
-                    fill 
+                  <Image
+                    src={activeImage}
+                    alt={product.name}
+                    fill
                     className="object-contain"
                   />
                 </motion.div>
@@ -123,9 +126,8 @@ export default function ProductDetailPage() {
                 <button
                   key={idx}
                   onClick={() => setActiveImage(img)}
-                  className={`relative w-24 h-24 flex-shrink-0 rounded-2xl overflow-hidden border-2 transition-all ${
-                    activeImage === img ? 'border-primary shadow-lg scale-105' : 'border-transparent bg-gray-50'
-                  }`}
+                  className={`relative w-24 h-24 flex-shrink-0 rounded-2xl overflow-hidden border-2 transition-all ${activeImage === img ? 'border-primary shadow-lg scale-105' : 'border-transparent bg-gray-50'
+                    }`}
                 >
                   <Image src={img} alt={`Thumb ${idx}`} fill className="object-cover" />
                 </button>
@@ -167,22 +169,22 @@ export default function ProductDetailPage() {
             <div className="space-y-6 mt-auto">
               <div className="flex items-center gap-6">
                 <div className="flex items-center bg-gray-50 rounded-2xl p-1 border border-gray-100">
-                  <button 
+                  <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
                     className="w-12 h-12 flex items-center justify-center hover:bg-white rounded-xl transition-colors text-gray-400 hover:text-primary"
                   >
                     <Minus size={20} />
                   </button>
                   <span className="w-12 text-center font-black text-lg text-gray-900">{quantity}</span>
-                  <button 
+                  <button
                     onClick={() => setQuantity(quantity + 1)}
                     className="w-12 h-12 flex items-center justify-center hover:bg-white rounded-xl transition-colors text-gray-400 hover:text-primary"
                   >
                     <Plus size={20} />
                   </button>
                 </div>
-                
-                <Button 
+
+                <Button
                   onClick={handleAddToCart}
                   className="flex-1 py-4 text-sm h-14 flex items-center justify-center gap-3"
                 >
