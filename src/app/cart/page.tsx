@@ -131,9 +131,11 @@ export default function CartPage() {
                 <Price amount={totalPrice()} className="text-primary text-3xl" />
               </div>
             </div>
-            <Button size="lg" className="w-full text-lg uppercase tracking-tighter italic">
-              Finalizar Pedido
-            </Button>
+            <Link href="/checkout" className="block w-full">
+              <Button size="lg" className="w-full text-lg uppercase tracking-tighter italic">
+                Finalizar Pedido
+              </Button>
+            </Link>
             <div className="mt-8 flex flex-col items-center gap-4">
               <p className="text-[10px] text-gray-500 uppercase tracking-[0.2em] font-black">
                 Secure Checkout by MercadoPago

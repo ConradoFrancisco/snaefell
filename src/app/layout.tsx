@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { AuthProvider } from "@/components/AuthProvider";
 import { Metadata } from "next";
+import { Toaster } from "sonner";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -31,6 +32,7 @@ export default function RootLayout({
     <html lang="es" className="dark scroll-smooth">
       <body className={`${inter.variable} ${montserrat.variable} font-sans min-h-screen bg-background text-foreground flex flex-col`}>
         <AuthProvider>
+          <Toaster position="top-right" expand={false} richColors />
           <Navbar />
           <main className="flex-grow">
             {children}

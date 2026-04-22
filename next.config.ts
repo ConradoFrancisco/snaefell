@@ -15,6 +15,18 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'i0.wp.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'oaurqeielbzbfuldfxxx.supabase.co',
+      },
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'logodownload.org',
+      },
     ],
   },
 };
