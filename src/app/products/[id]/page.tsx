@@ -8,7 +8,10 @@ import { ChevronLeft, ChevronRight, ShoppingCart, ShieldCheck, Truck, Zap, Plus,
 import { motion, AnimatePresence } from 'framer-motion'
 import Button from '@/components/Button'
 import { useCartStore } from '@/stores/useCartStore'
+import { useAuth } from '@/components/AuthProvider'
 import { toast } from 'sonner'
+import AuthModal from '@/components/AuthModal'
+import { useRouter } from 'next/navigation'
 
 interface Product {
   id: string
@@ -32,7 +35,10 @@ export default function ProductDetailPage() {
   const [loading, setLoading] = useState(true)
   const [activeImage, setActiveImage] = useState('')
   const [quantity, setQuantity] = useState(1)
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
   const addItem = useCartStore((state) => state.addItem)
+  const { user } = useAuth()
+  const router = useRouter()
 
   const supabase = createClient()
 
@@ -70,6 +76,11 @@ export default function ProductDetailPage() {
   const allImages = product ? [product.image_url, ...extraImages] : []
 
   const handleAddToCart = () => {
+    if (!user) {
+      setIsAuthModalOpen(true)
+      return
+    }
+
     if (!product) return
 
     addItem({
@@ -78,7 +89,7 @@ export default function ProductDetailPage() {
       price: product.price,
       image_url: product.image_url,
       quantity: quantity
-    } as any) // Casteamos temporalmente para evitar el conflicto de tipos de la DB
+    } as any)
 
     toast.success(`¡Agregado!`, {
       description: `${product.name} ya está en tu carrito.`,
@@ -218,6 +229,8 @@ export default function ProductDetailPage() {
           </div>
         </div>
       </div>
+
+      <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
     </div>
   )
 }
